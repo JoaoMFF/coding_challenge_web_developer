@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - local_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=DB_PASS
+      - MONGO_INITDB_DATABASE=DB_AUTH_SOURCE
+
+volumes:
+  local_data: {}

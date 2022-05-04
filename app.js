@@ -1,10 +1,20 @@
 const express = require('express')
+const mongoose = require('mongoose');
 const dotenv = require("dotenv")
 const {initialize} = require("express-openapi");
 const swaggerUi = require("swagger-ui-express");
 const openapiValidationErrorMiddleware = require('./api/middleware/validation-error-middleware');
 
 dotenv.config()
+
+mongoose.connect('mongodb://' + process.env.DB_URL + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASS,
+    authSource: process.env.DB_AUTH_SOURCE,
+})
+mongoose.Promise = global.Promise;
 
 const port = process.env.PORT || 3000;
 const app = express()

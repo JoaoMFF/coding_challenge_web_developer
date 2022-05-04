@@ -15,6 +15,11 @@ npm install
 
 ## COMMANDS
 
+Run Docker
+```shell
+docker-compose up
+```
+
 Start project
 ```shell
 npm start
