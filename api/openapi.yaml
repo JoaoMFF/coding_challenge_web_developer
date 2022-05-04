@@ -14,15 +14,17 @@ paths:
       description: Returns all the questions
       parameters:
         - name: id
-          in: path
-          description: question id
+          in: query
+          description: Question id
+          required: false
           schema:
             type: string
             maxLength: 24
             minLength: 24
-            pattern: ^[0-9a-f]{24}$
+            pattern: '^[0-9a-f]{24}$'
         - name: page
           in: query
+          required: false
           description: Page setup offset for search.
           schema:
             type: number
@@ -48,6 +50,49 @@ paths:
                       description: User observations
                     date:
                       type: string
-                      pattern: ([0-9]{4})-([0-9]{2})-([0-9]{2})
-                      example: 2022-05-04
+                      example: '2022-05-04'
+                      pattern: '([0-9]{4})-([0-9]{2})-([0-9]{2})'
                       description: Date of creation
+                  required:
+                    - name
+                    - email
+                    - observations
+                    - date
+    post:
+      tags:
+        - Questions
+      summary: Add question
+      description: Add a new question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Question data
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: User name
+                email:
+                  type: string
+                  format: email
+                  description: User email
+                observations:
+                  type: string
+                  description: User observations
+                date:
+                  type: string
+                  example: '2022-05-04'
+                  pattern: '([0-9]{4})-([0-9]{2})-([0-9]{2})'
+                  description: Date of creation
+              required:
+                - name
+                - email
+                - date
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad request
