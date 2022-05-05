@@ -28,6 +28,23 @@ paths:
           description: Page setup offset for search.
           schema:
             type: number
+        - name: limit
+          in: query
+          required: false
+          description: Limit of records to return
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: page
+          in: query
+          description: Page of questions. Page setup offset for search.
+          required: false
+          schema:
+            type: number
+            minimum: 1
+            default: 1
       responses:
         '200':
           description: Questions data
@@ -58,6 +75,8 @@ paths:
                     - email
                     - observations
                     - date
+        204:
+          description: No Content
     post:
       tags:
         - Questions
