@@ -10,5 +10,6 @@ module.exports = mongoose.model('questions', new Schema(
         observations: String,
         date: Date,
         created_at: Date,
-    }
+    },
+    { versionKey: false }
 ));

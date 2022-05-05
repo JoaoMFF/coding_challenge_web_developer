@@ -90,6 +90,7 @@ paths:
               required:
                 - name
                 - email
+                - observations
                 - date
       responses:
         200:

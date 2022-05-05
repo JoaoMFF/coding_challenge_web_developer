@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Question = require('./models/question');
 const dotenv = require("dotenv")
+const { faker } = require('@faker-js/faker');
 
 dotenv.config()
 
@@ -14,15 +15,22 @@ mongoose.connect('mongodb://' + process.env.DB_URL + ':' + process.env.DB_PORT +
 mongoose.Promise = global.Promise;
 
 
-const seedQuestions = [
-    {
-        name: 'John',
-        email: 'john@email.com',
-        observations: 'sup?',
-        date: new Date('2022-05-02'),
-        created_at: new Date(),
-    }
-]
+let seedQuestions = []
+
+for (let i = 0; i <= 50; i++) {
+    let firstName = faker.name.firstName();
+    let lastName = faker.name.lastName();
+
+    seedQuestions.push(
+        {
+            name: `${firstName} ${lastName}`,
+            email: faker.internet.email(firstName, lastName),
+            observations: faker.commerce.productDescription(),
+            date: faker.date.soon(),
+            created_at: new Date(),
+        }
+    )
+}
 
 const seedDB = async () => {
     await Question.deleteMany({});
