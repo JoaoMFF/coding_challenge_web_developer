@@ -1,6 +1,6 @@
 const Question = require('../../database/models/question');
 const skip = require('../queries/skip');
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 module.exports = function () {
     return {
@@ -57,7 +57,7 @@ module.exports = function () {
             {
                 $group: {
                     _id: null,
-                    questions: {$push: '$data'},
+                    questions: {$push: "$data"},
                     totalQuestions: {
                         $first: {
                             $ifNull: ["$total", 0]
@@ -83,8 +83,12 @@ module.exports = function () {
                 }
             },
             {
-                $project: {
-                    _id: 0
+                $addFields: {
+                    lastPage: {
+                        $ceil: {
+                            $divide: ["$totalQuestions", "$totalResults"]
+                        }
+                    }
                 }
             }
         ]
@@ -92,12 +96,42 @@ module.exports = function () {
         let questions = await Question.aggregate(pipeline);
 
         if (questions.length) {
-            return res.status(200).send(questions);
+            return res.status(200).send(questions[0]);
         }
         return res.sendStatus(204);
     }
 
     async function post(req, res) {
-        return res.sendStatus(200);
+        let date = new Date(req.body.date);
+        let oneDay = 1000 * 60 * 60 * 24
+        let dateTomorrow = new Date(new Date().getTime() + oneDay);
+
+        // set dayAfterTomorrow at midnight
+        dateTomorrow.setMilliseconds(999);
+        dateTomorrow.setSeconds(59);
+        dateTomorrow.setMinutes(59);
+        dateTomorrow.setHours(23);
+
+        if (date < dateTomorrow) {
+            return res.status(400).send('The date must greater than the date of the following date!');
+        }
+
+        const question = new Question({
+            _id: new mongoose.Types.ObjectId(),
+            name: req.body.name,
+            email: req.body.email,
+            observations: req.body.observations,
+            date: new Date(req.body.date),
+            created_at: new Date(),
+        });
+
+        try {
+            await question.save();
+        } catch (e) {
+            console.error(e);
+            throw new Error('Error saving question!');
+        }
+
+        return res.status(201).json({id: question._id.toString()})
     }
 }
