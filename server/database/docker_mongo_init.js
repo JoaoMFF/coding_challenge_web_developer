@@ -3,7 +3,7 @@ const Question = require('./models/question');
 const dotenv = require("dotenv")
 const { faker } = require('@faker-js/faker');
 
-dotenv.config()
+dotenv.config({path: '../.env'})
 
 mongoose.connect('mongodb://' + process.env.DB_URL + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME, {
     useNewUrlParser: true,

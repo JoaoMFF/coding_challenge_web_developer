@@ -5,7 +5,7 @@ const {initialize} = require("express-openapi");
 const swaggerUi = require("swagger-ui-express");
 const openapiValidationErrorMiddleware = require('./api/middleware/validation-error-middleware');
 
-dotenv.config()
+dotenv.config({path: '../.env'})
 
 mongoose.connect('mongodb://' + process.env.DB_URL + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME, {
     useNewUrlParser: true,
