@@ -4,6 +4,8 @@ const dotenv = require("dotenv")
 const {initialize} = require("express-openapi");
 const swaggerUi = require("swagger-ui-express");
 const openapiValidationErrorMiddleware = require('./api/middleware/validation-error-middleware');
+const YAML = require('yamljs');
+const OpenApiValidator = require('express-openapi-validator');
 
 dotenv.config({path: '../.env'})
 
@@ -29,21 +31,26 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(
+    "/api-documentation",
+    swaggerUi.serve,
+    swaggerUi.setup(YAML.load("./api/openapi.yaml")),
+);
+
+app.use(
+    OpenApiValidator.middleware({
+        apiSpec: "./api/openapi.yaml",
+        validateRequests: true, // (default)
+        validateResponses: true, // false by default
+    }),
+);
+
 initialize({
     app,
     apiDoc: "./api/openapi.yaml",
     paths: "./api/paths",
 });
 
-app.use(
-    "/api-documentation",
-    swaggerUi.serve,
-    swaggerUi.setup(null, {
-        swaggerOptions: {
-            url: `http://localhost:${port}/api-docs`,
-        },
-    }),
-);
 
 app.use(openapiValidationErrorMiddleware);
 
