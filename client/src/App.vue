@@ -1,35 +1,35 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark ">
-      <!-- Container wrapper -->
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
       <div class="container-fluid">
-
-        <!-- Navbar brand -->
-        <router-link class="navbar-brand"  to="/" >Questions</router-link>
-
-        <!-- Toggle button -->
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
+        <router-link class="navbar-brand" to="/">Questions</router-link>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-            <!-- Link -->
             <li class="nav-item">
               <router-link to="/questions" class="nav-link">Add</router-link>
             </li>
-
+            <li class="nav-item dropdown">
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <router-link to="/questions" class="nav-link">Add</router-link>
+                </li>
+              </ul>
+            </li>
           </ul>
-
         </div>
       </div>
-      <!-- Container wrapper -->
     </nav>
 
-    <div class="container mt-5">
-      <router-view />
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <router-view/>
+        </div>
+      </div>
     </div>
   </div>
 </template>

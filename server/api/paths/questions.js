@@ -55,6 +55,16 @@ module.exports = function () {
                 $limit: limit
             },
             {
+                $addFields: {
+                    "data.date": {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: "$data.date"
+                        }
+                    }
+                }
+            },
+            {
                 $group: {
                     _id: null,
                     questions: {$push: "$data"},

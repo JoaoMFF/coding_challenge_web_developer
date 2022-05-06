@@ -2,7 +2,7 @@
 
 ## URLS
 
-Application can be accessed through: http://localhost:8082/
+Application can be accessed through: http://localhost:8080/
 
 Api calls are done through: http://localhost:3000
 
