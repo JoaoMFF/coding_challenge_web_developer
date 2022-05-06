@@ -17,7 +17,7 @@ npm install
 
 ## COMMANDS
 
-Run Docker on the root of the project
+Run Docker on the root of the project to run the mongodb container
 ```shell
 docker-compose up
 ```
